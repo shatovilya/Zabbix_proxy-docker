@@ -1,6 +1,5 @@
 conf/psk*
 conf/*.psk
-conf/.env*
 # !conf/.env.agent_template
 # !conf/.env.proxy_template
 # !conf/.env.template
