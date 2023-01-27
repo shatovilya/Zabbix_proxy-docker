@@ -1,0 +1,57 @@
+ELTEX-MES-QOS-CLI-MIB DEFINITIONS ::= BEGIN
+
+-- Title:      Eltex MES QoS Configuration
+-- Version:    1.5
+-- Date:       23-Jan-2017
+--
+-- 03-Aug-2015 Added eltQosAclActionStop
+-- 05-Aug-2015 Added eltQosClassMapActionCfgTable
+-- 28-Jan-2016 Added eltQosDscpToCosTable
+-- 28-Dec-2016 Added eltQosCosToDscpTable
+-- 23-Jan-2017 Added eltQosAceTidxTable and expanded eltQosOffsetListTable
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE                   FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION, DisplayString, RowStatus,
+    MacAddress, TruthValue                         FROM SNMPv2-TC
+    InterfaceType, BinaryStatus, AclDefaultAction,
+    ClassMapAction, rlQosClassMapIndex,
+    rlQosIfPolicyEntry, rlQosAceTidxEntry,
+    rlQosOutQueueStatisticsEntry                   FROM RADLAN-QOS-CLI-MIB
+    eltMes, eltMesQosCliMib                        FROM ELTEX-MES;
+
+--------------------------------------------------------------------------------
+-- eltQosOutQueueStatisticsTable
+--------------------------------------------------------------------------------
+
+eltQosOutQueueStatisticsTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF EltQosOutQueueStatisticsEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "This table specifies statistics counters per Port/Queue/Drop Precedence"
+    ::= { eltMesQosCliMib 11 }
+
+eltQosOutQueueStatisticsEntry OBJECT-TYPE
+    SYNTAX  EltQosOutQueueStatisticsEntry
+    MAX-ACCESS  not-accessible
+    STATUS  current
+    DESCRIPTION
+        "Augments rlQosOutQueueStatisticsEntry to add more parameters for configuration
+         statistics counters."
+    AUGMENTS { rlQosOutQueueStatisticsEntry }
+    ::= { eltQosOutQueueStatisticsTable 1 }
+
+EltQosOutQueueStatisticsEntry ::= SEQUENCE {
+       eltQosOutQueueStatisticsCpuPort      TruthValue
+}
+
+eltQosOutQueueStatisticsCpuPort OBJECT-TYPE
+    SYNTAX  TruthValue
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+       "Indication for whether the port is configured as CPU port."
+    ::= { eltQosOutQueueStatisticsEntry 1 }
+
+END

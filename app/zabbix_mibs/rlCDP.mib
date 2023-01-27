@@ -1,0 +1,281 @@
+RADLAN-CDP-MIB DEFINITIONS ::= BEGIN
+
+-- Title:                RADLAN CDP ROS
+--                       This Private MIB provides the port and global information concerning CDP protocol
+-- Version:              7.47
+-- Date:                 14 Sep 2008
+
+
+
+IMPORTS
+    rnd                                     FROM RADLAN-MIB
+    OBJECT-TYPE, IpAddress, Unsigned32,
+    MODULE-IDENTITY,Counter32               FROM SNMPv2-SMI
+    DisplayString,
+    TEXTUAL-CONVENTION,
+    TruthValue                              FROM SNMPv2-TC
+    PortList                                FROM Q-BRIDGE-MIB
+    VlanId                                  FROM Q-BRIDGE-MIB
+    InterfaceIndexOrZero                    FROM IF-MIB
+    cdpCacheEntry                           FROM CISCO-CDP-MIB;
+
+rlCdp MODULE-IDENTITY
+         LAST-UPDATED "201008110000Z"
+         ORGANIZATION "Radlan Computer Communications Ltd."
+         CONTACT-INFO
+                "radlan.com"
+         DESCRIPTION
+                "The private MIB module definition for CDP protocol."
+         REVISION "200809140000Z"
+         DESCRIPTION
+                "Initial revision."
+         REVISION "201008110000Z"
+         DESCRIPTION
+                "Added rlCdpLogMismatchVoiceVlanEnable, rlCdpLogMismatchNativeVlanEnable"
+        ::= { rnd 137 }
+
+RlCdpVersionTypes ::= TEXTUAL-CONVENTION
+    STATUS current
+    DESCRIPTION
+        "version-v1 - cdp version 1
+         version-v2 - cdp version 2  "
+     SYNTAX INTEGER {
+        version-v1(1),
+        version-v2(2)
+     }
+
+RlCdpCounterTypes ::= TEXTUAL-CONVENTION
+    STATUS current
+    DESCRIPTION
+        " V1OutputPacketsCnt Specifies the number of sent CDP packets with version 1
+          V2OutputPacketsCnt Specifies the number of sent CDP packets with version 2
+          V1InputPacketsCnt Specifies the number of received CDP packets with version 1
+          V2InputPacketsCnt Specifies the number of received CDP packets with version 2
+          TotalInputPacketsCnt Specifies the total number of received CDP packets
+          TotalOutputPacketsCnt Specifies the total number of sent CDP packets
+          IllegalChksumCnt Specifies the number of received CDP packets with illegal checksum.
+          ErrorPacketCnt Specifies the number of recieved CDP packets with other error (duplicated TLVs, illegal TLVs, etc.)
+          MaxNeighborsExceededCnt Specifies the number of neighbors exceeds the maximum number of neighbors supported by the device. "
+     SYNTAX INTEGER {
+        totalInputPackets(1),
+        v1InputPackets(2),
+        v2InputPackets(3),
+        totalOutputPackets(4),
+        v1OutputPackets(5),
+        v2OutputPackets(6),
+        illegalChksum(7),
+        errorPackets(8),
+        maxNeighborsExceeded(9)
+     }
+
+
+RlCdpPduActionTypes ::= TEXTUAL-CONVENTION
+    STATUS current
+    DESCRIPTION
+        "filtering - CDP packets would filtered (dropped).
+         bridging  - CDP packets  bridged as regular data packets  "
+     SYNTAX INTEGER {
+        filtering(1),
+        bridging(2)
+     }
+-- rlCdpVersionAdvertised
+
+rlCdpVersionAdvertised OBJECT-TYPE
+    SYNTAX  RlCdpVersionTypes
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        "Specifies the verison of sent CDP packets"
+    ::= {rlCdp 1}
+
+-- rlCdpSourceInterface
+
+rlCdpSourceInterface OBJECT-TYPE
+    SYNTAX      InterfaceIndexOrZero
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+       "Specifices the CDP source-interface, which the IP address advertised
+       into TLV is accoding to this source-interface instead
+       of the outgoing interface.
+       value of 0 indicates no source interface.
+       value must belong to an ethernet port/lag "
+    DEFVAL     { 0 }
+    ::=  { rlCdp 2 }
+
+-- rlCdpLogMismatchDuplexEnable
+
+rlCdpLogMismatchDuplexEnable OBJECT-TYPE
+    SYNTAX      PortList
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+       "Enable loging messages when detecting mishmatch between
+       advertised and received duplex mode.
+       To enable loging on specific interface set the corresponing bit."
+    ::=  { rlCdp 3 }
+
+-- rlCdpCountersTable
+
+rlCdpCountersTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF RlCdpCountersEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "This table cotains all cdp counter values, indexed by conter name"
+    ::= { rlCdp 4 }
+
+rlCdpCountersEntry OBJECT-TYPE
+    SYNTAX      RlCdpCountersEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "The row definition for this table."
+    INDEX { rlCdpCountersName  }
+    ::= { rlCdpCountersTable 1 }
+
+RlCdpCountersEntry ::= SEQUENCE {
+    rlCdpCountersName     RlCdpCounterTypes,
+    rlCdpCountersValue    Counter32
+}
+
+rlCdpCountersName OBJECT-TYPE
+    SYNTAX  RlCdpCounterTypes
+    MAX-ACCESS  not-accessible
+    STATUS  current
+    DESCRIPTION
+        "counter name used as key for counters table "
+    ::= {rlCdpCountersEntry 1}
+
+rlCdpCountersValue OBJECT-TYPE
+    SYNTAX  Counter32
+    MAX-ACCESS  read-only
+    STATUS  current
+    DESCRIPTION
+        "the value of the counter name specisifed by rlCdpCountersName, unsuppo
+        will have no entry in the tab."
+    ::= {rlCdpCountersEntry 2}
+
+-- rlCdpCountersClear
+
+rlCdpCountersClear OBJECT-TYPE
+    SYNTAX  TruthValue
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        "By setting the MIB to True, all error and traffic counters are set to zero."
+    ::= {rlCdp 5}
+
+-- rlCdpCacheClear
+
+rlCdpCacheClear OBJECT-TYPE
+    SYNTAX  TruthValue
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        "By setting the MIB to True, all entries from the cdp cache table is deleted."
+    ::= {rlCdp 6}
+
+-- rlCdpVoicevlanId
+rlCdpVoiceVlanId  OBJECT-TYPE
+    SYNTAX INTEGER (0..4094)
+    MAX-ACCESS  read-write
+    STATUS      obsolete
+    DESCRIPTION
+        "voice vlan Id, used as the Appliance Vlan-Id TLV"
+    ::= {rlCdp 7}
+
+-- Augment to cdpCacheTable
+rlCdpCacheTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF RlCdpCacheEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "The (conceptual) table contains externtion for the cdpCache table.
+        indexed by cdpCacheEntry."
+    ::= { rlCdp 8 }
+
+rlCdpCacheEntry OBJECT-TYPE
+    SYNTAX      RlCdpCacheEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "The row definition for this table."
+    AUGMENTS    { cdpCacheEntry }
+    ::= { rlCdpCacheTable 1 }
+
+RlCdpCacheEntry ::= SEQUENCE {
+    rlCdpCacheVersionExt           DisplayString,
+    rlCdpCacheTimeToLive           INTEGER,
+    rlCdpCacheCdpVersion           RlCdpVersionTypes
+}
+rlCdpCacheVersionExt OBJECT-TYPE
+    SYNTAX     DisplayString
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "This field contains the extention of the cdpCacheVersion field
+            in the cdpCache table.
+            In case the neighbour advertised the SW TLV as a string with length
+            larger than 160, this field contains the chacters from place 160 and on.
+            Zero-length strings indicates no Version
+            field (TLV) was reported in the most recent CDP
+            message, or it was smaller than 160 chars  "
+    ::= { rlCdpCacheEntry 1 }
+
+rlCdpCacheTimeToLive OBJECT-TYPE
+    SYNTAX     INTEGER
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "This field indicates the time remains in seconds
+            till the entry should be expried. "
+    ::= { rlCdpCacheEntry 2 }
+
+rlCdpCacheCdpVersion OBJECT-TYPE
+    SYNTAX     RlCdpVersionTypes
+    MAX-ACCESS read-only
+    STATUS     current
+    DESCRIPTION
+            "This field indicates the cdp version that was reported in the most recent CDP
+            message."
+    ::= { rlCdpCacheEntry 3 }
+
+-- rlCdpPduAction
+rlCdpPduAction  OBJECT-TYPE
+    SYNTAX      RlCdpPduActionTypes
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        "Defines CDP packets handling when CDP is globally disabled."
+    DEFVAL     { bridging }
+    ::= {rlCdp 9}
+
+-- rlCdpLogMismatchVoiceVlanEnable
+
+rlCdpLogMismatchVoiceVlanEnable OBJECT-TYPE
+    SYNTAX      PortList
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+       "Enable loging messages when detecting mishmatch between
+       advertised and received voice VLAN.
+       To enable logging on specific interface set the corresponing bit."
+    ::=  { rlCdp 10 }
+
+-- rlCdpLogMismatchNativeVlanEnable
+
+rlCdpLogMismatchNativeVlanEnable OBJECT-TYPE
+    SYNTAX      PortList
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+       "Enable loging messages when detecting mishmatch between
+       advertised and received native VLAN.
+       To enable loging on specific interface set the corresponing bit."
+    ::=  { rlCdp 11 }
+
+
+END
+
+

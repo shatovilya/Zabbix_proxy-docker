@@ -1,0 +1,39 @@
+ELTEX-MES-HWENVIROMENT-MIB DEFINITIONS ::= BEGIN
+
+-- Title:      Eltex MES Hardware enviroment definition
+-- Version:    1.1
+-- Date:       04-Mar-2016
+
+IMPORTS
+	eltMes         FROM ELTEX-MES
+    OBJECT-TYPE	   FROM SNMPv2-SMI
+    RlEnvMonState  FROM RADLAN-HWENVIROMENT;
+
+eltMesEnv MODULE-IDENTITY
+	LAST-UPDATED "201603040000Z"
+    ORGANIZATION "Eltex Enterprise Co, Ltd."
+    CONTACT-INFO "www.eltex.nsk.ru"
+    DESCRIPTION
+		"This private MIB module contains Eltex's hardware enviroment definition."
+	REVISION "201603040000Z"
+    DESCRIPTION
+    	"Add eltEnvResetButtonMode scalar."
+    REVISION "201506110000Z"
+    DESCRIPTION
+    	"Initial revision."
+    ::= { eltMes 11 }
+
+eltEnvResetButtonMode OBJECT-TYPE
+    SYNTAX  INTEGER {
+    	enable(0),
+    	disable(1),
+    	reset-only(2)
+    	}
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        "Mode of reset button: 0 - Enable, 1 - disable, 2 - reset-only mode"
+    DEFVAL { enable }
+    ::= { eltMesEnv 2 }
+
+END

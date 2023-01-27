@@ -1,0 +1,5084 @@
+
+LIEBERT-GP-ADIABATIC-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+         OBJECT-TYPE
+                 FROM RFC-1212
+	    lgpAcProducts
+			    FROM LIEBERT-GP-REGISTRATION-MIB
+		;
+
+-- =============================================================================
+--  Revisions
+--  1.1  2015-06-24 - Added object 19 in lgpIproEFCWriteParams
+--  1.2  2015-07-21 - Added objects 109-->115 in lgpIproAFCEvents
+--  1.3  2015-08-29 - Added objects 76-->85 in lgpIproEFCEvents, 
+--					- Modified object 10 and 75 name in lgpIproAFCEvents
+--	1.4  2015-09-28 - Added objects 30-->43 in lgpIproEFCReadParams,
+--					- Added objects 86-->90; 251-252 in lgpIproEFCEvents
+--  1.5  2015-10-02 - Added objects 116-->125 in lgpIproAFCEvents
+--  1.6  2015-10-23 - Added objects 126-->127 in lgpIproAFCEvents
+--  1.7  2015-11-05 - Added object 57 in lgpIproAFCReadParams
+--  1.8  2015-11-05 - Added objects 98->140 in lgpIproEFCEvents; moved 251-252 in lgpIproEFCEvents
+--  1.9  2015-11-12 - Added objects 129->129 in lgpIproAFCEvents
+--  2.0  2015-11-18 - Modified objects 30,31,32,59,63,64,65,66,77,78,79,80 in lgpIproEFCEvents
+--  2.1  2015-11-24 - Added objects 47-->69 lgpIproEFCReadParams
+--					- Added object 20-->22 in lgpIproEFCWriteParams
+--  2.2  2015-11-26 - Updated objects in lgpIproAFCEvents
+--					- Added object 141 in lgpIproEFCEvents
+--  2.3  2015-12-22 - Added objects 142-->148 in lgpIproEFCEvents
+--  2.4  2016-02-23 - Added objects 70-->85 lgpIproEFCReadParams
+--					- Added object 23 in lgpIproEFCWriteParams
+--                  - Added objects 149-->160 in lgpIproEFCEvents
+--  2.5  2016-04-07 - Added objects 86-->111 lgpIproEFCReadParams
+--					- Added object 24,25 in lgpIproEFCWriteParams
+--					- Added objects 161-->179 in lgpIproEFCEvents
+--					- Added objects 130->138 in lgpIproAFCEvents
+--	2.6  2016-05-09 - Removed objects 281-->288 lgpIproAFCEvents
+--	2.7  2016-06-xx - Added objects 180-->181 in lgpIproEFCEvents
+--					- Added objects 112-->113 lgpIproEFCReadParams
+--	2.8  2016-07-09 - Added objects 104-->105 and 107-->111 lgpIproAFCEvents
+--				    - Added object 182 in lgpIproEFCEvents
+--	2.9  2016-07-09 - Added object 183-->184 in lgpIproEFCEvents
+--	2.10 2016-08-31 - Modified object 56 in lgpIproEFCEvents
+--					- Modified object 24 in lgpIproEFCReadParams
+--					- Modified object 14 in lgpIproEFCWriteParams
+--	2.11 2016-09-20 - Added objects 114-->115 lgpIproEFCReadParams
+--  2.12 2016-10-10 - Added objects 58-->59 in lgpIproAFCReadParams
+--					  Added object 22 in lgpIproAFCWriteParams
+--  2.13 2016-10-21 - Added objects 60-->66 in lgpIproAFCReadParams
+--					- Added objects 23-->26 in lgpIproAFCWriteParams
+--					- Added objects 139-->141 in lgpIproAFCEvents
+--					- Added objects 184-->189 in lgpIproEFCEvents
+--					- Added objects 116-->117 lgpIproEFCReadParams
+--					- Added object 26 in lgpIproEFCWriteParams
+--	2.14 2016-11-22 - Modified object 33-->37 in lgpIproEFCEvents
+--	2.15 2016-11-30 - Modified object 38-->39 in lgpIproEFCEvents
+--					- Added objects 190-->201 in lgpIproEFCEvents
+--	2.15 2016-11-30 - Modified object 71 in lgpIproEFCReadParams
+--					- Added objects 118-->125 lgpIproEFCReadParams
+--					- Added object 27 in lgpIproEFCWriteParams
+--	2.16 2017-01-09 - Added objects 126-->143 lgpIproEFCReadParams
+--					- Added object 28 in lgpIproEFCWriteParams
+--	2.17 2017-01-17 - Added object 144 lgpIproEFCReadParams
+--	2.18 2017-01-31 - Added objects 29-->31 in lgpIproEFCWriteParams
+--	2.19 2017-03-16 - Added objects 145-->174 in lgpIproEFCReadParams
+--  2.20 2017-06-07 - Added objects 77 in lgpIproAFCReadParams
+--	2.21 2017-07-24 - Added object 180 in lgpIproEFCReadParams
+--	2.22 2017-09-29 - Modified objects 147-->148 in lgpIproEFCEvents
+--					- Added objects 183-->207 lgpIproEFCReadParams
+--					- Added objects 32-->35 in lgpIproEFCWriteParams
+--					- Added objects 139-->144 in lgpIproAFCEvents
+--	2.23 2017-10-10 - Added object 208 in lgpIproEFCReadParams
+--					- Added object 36 in lgpIproEFCWriteParams 
+--					- Changed objects 186-188 in lgpIproEFCEvents
+--	2.24 2017-11-09	- Changed object 174 in lgpIproEFCEvents
+--					- Added objects 145-->146 in lgpIproAFCEvents
+--	2.25 2017-11-15	- Added objects 209-->212 in lgpIproEFCReadParams
+--					- Changed objects 144-->145 in lgpIproEFCEvents
+--	2.26 2018-03-12 - Modified objects 32,40,47.59,65,66,96,97,187-->189 in lgpIproEFCEvents
+--	2.27 2018-06-30 - Added object 202 in lgpIproEFCEvents
+--					- Changed objects 48-59 in lgpIproEFCEvents
+--					- Removed object 51 in lgpIproEFCEvents
+--	2.28 2018-07-02 - Added object 147 in lgpIproAFCEvents
+--	2.29 2018-07-10 - Added object 83 in lgpIproAFCReadParams
+--	2.30 2018-10-08	- Added objects 213-->216 in lgpIproEFCReadParams
+--					- Added object 37-38 in lgpIproEFCWriteParams 
+--  2.31 2018-11-27 - Added objects 84 in lgpIproAFCReadParams
+--	2.32 2019-02-26 - Added object 203-->205 in lgpIproEFCEvents
+--	2.33 2019-05-31 - Added object 206-->214 in lgpIproEFCEvents 
+--					- Added object 39 in lgpIproEFCWriteParams
+--					- Added objects 213-->216 in lgpIproEFCReadParams
+--	2.34 2019-07-24	- Added object2 148-->150 in lgpIproAFCEvents
+-- =============================================================================
+
+-- =============================================================================
+--  lgpIproAFC
+-- =============================================================================
+
+lgpIproAFC OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch is used to register information for the Emerson
+               Network Power AFC Adiabatic Chiller Environmental product
+               family."
+   REFERENCE   "The registrations for the objects in this branch
+               are defined in the LIEBERT_GP_ADIABATIC.mib"
+    ::= { lgpAcProducts 30 }
+	
+-- =============================================================================
+--  lgpIproAFCReadParams
+-- =============================================================================
+
+lgpIproAFCReadParams OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO read variables for AFC Units."
+    ::= { lgpIproAFC 1 }
+
+UnitStatusAFC OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 1 }
+	
+ActTempSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 2 }
+	 
+UnitInTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 3 }
+	 
+EvapInTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 4 }
+
+UnitOutTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 5 }
+
+AmbTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 6 }
+	 
+FreeCoolStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 7 }
+
+Pump1Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 8 }
+
+Pump2Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 9 }
+	
+Pump3Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 10 }
+	  
+FreeCoolValve OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 11 }
+
+Fan1Speed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 12 }
+
+Fan2Speed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 13 }
+ 
+Fan3Speed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 14 }
+ 
+Comp1Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 15 }
+	 
+Comp2Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 16 }
+
+Comp3Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 17 }
+
+Comp4Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 18 }
+
+Comp5Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 19 }
+
+Comp6Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 20 }
+
+CondPressC1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 21 }
+
+EvapPressC1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 22 }
+	 
+CondPressC2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 23 }
+
+EvapPressC2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 24 }
+
+WorkHoursPump1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 25 }
+
+WorkHoursPump2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 26 }
+	 
+ WorkHoursPump3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 27 }
+
+WorkHoursFan1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 28 }
+
+WorkHoursFan2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 29 }
+
+WorkHoursFan3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 30 }
+
+WorkHoursComp1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 31 }
+
+WorkHoursComp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 32 }
+
+WorkHoursComp3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 33 }
+
+WorkHoursComp4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 34 }
+
+WorkHoursComp5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 35 }
+
+WorkHoursComp6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 36 }
+
+StartsComp1Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 37 }
+
+StartsComp2Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 38 }
+
+StartsComp3Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 39 }
+
+StartsComp1Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 40 }
+
+StartsComp2Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 41 }
+
+StartsComp3Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 42 }
+
+RemoteOnOffStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 43 }
+
+FlowSwitchStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 44 }
+
+PowerMonitStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 45 }
+
+CoilPartCirc1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 46 }
+
+CoilPartCirc2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 47 }
+
+DeltaPressPAD OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 48 }
+
+TempAfterPAD OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 49 }
+
+SnowDirtPADCleanCycle OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 50 }
+
+AdiabStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 51 }
+
+UltraCapStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 52 }
+
+InstPowerConsuption OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 53 }
+
+InstEER OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 54 }
+
+InstPPUE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 55 }
+
+InstWUE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 56 }
+	 
+WaterFlow OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 57 }
+	 
+CompStartHour_Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 58 }
+	 
+TimeToDx OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 59 }
+	 
+WaterDP OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 60 }
+	 
+ByPassValvePos OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 61 }
+	 
+UnitOperMode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 62 }
+	 
+DigitalUsrInpSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 63 }
+	 
+AnalogUsrInpSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 64 }
+	 
+CondInTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 65 }
+	 
+CondOuTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 66 }
+	 
+AdiabWConsumption OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 77 }
+	 
+ShiftingSetpoint OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 83 }
+	 
+AdiabWkHours OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCReadParams 84 }
+	 
+-- =============================================================================
+--  End lgpIproAFCReadParams
+-- =============================================================================
+	
+-- =============================================================================
+--  lgpIproAFCWriteParams
+-- =============================================================================
+
+lgpIproAFCWriteParams OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO write variables for AFC Units."
+    ::= { lgpIproAFC 2 }
+
+UnitOnOff OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 1 }
+
+AlarmRst OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 2 }
+
+TempSet1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 3 }
+
+TempSet2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 4 }
+
+HiInTempWarn OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 5 }
+
+HiInTempAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 6 }
+
+HiOutTempWarn OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 7 }
+
+HiOutTempAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 8 }
+
+LimWorkHoursPump1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 9 }
+
+LimWorkHoursPump2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 10 }
+
+LimWorkHoursPump3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 11 }
+
+LimWorkHoursFansCirc1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 12 }
+
+LimWorkHoursFansCirc2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 13 }
+
+LimWorkHoursFansCirc3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 14 }
+
+LimWorkHoursComp1Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 15 }
+
+LimWorkHoursComp2Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 16 }
+
+LimWorkHoursComp3Circ1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 17 }
+
+LimWorkHoursComp1Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 18 }
+
+LimWorkHoursComp2Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 19 }
+
+LimWorkHoursComp3Circ2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproAFCWriteParams 20 }
+	 
+EventAck  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 21 }
+
+ManualModeEnab  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 22 }
+
+RemWatFlowReq  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 23 }
+
+DPSetpoint  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 24 }
+
+HeatingSetpoint  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 25 }
+
+TempSet3  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+    ::= { lgpIproAFCWriteParams 26 }
+
+-- =============================================================================
+--  End lgpIproAFCWriteParams
+-- =============================================================================
+
+lgpIproAFCEvents OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO Alarms."
+    ::= { lgpIproAFC 3 }
+
+-- =============================================================================
+--  lgpIproAFCEvents
+-- =============================================================================
+
+Pump1Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 6 }
+	
+Pump2Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 7 }
+		
+NoWaterFlow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 8 }
+
+ManualModeEnab  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 9 }
+
+EvapFreezeProt  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 10 }	
+	
+UnitInTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 11 }	
+	
+EvapInTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 12 }	
+	
+UnitOutTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 13 }	
+	
+UnitOutTempSens2Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 14 }	
+	
+AmbTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 15 }	
+	
+HighInletTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 16 }	
+	
+LowInletTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 17 }	
+	
+HighOutletTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 18 }	
+	
+LowOutletTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 19 }	
+	
+HighInletTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 20 }	
+	
+LowInletTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 21 }	
+	
+HighOutletTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 22 }	
+	
+LowOutletTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 23 }	
+	
+FansFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 24 }	
+	
+FansCirc1FailAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 25 }	
+	
+FansCirc2FailAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 26 }	
+	
+FansCirc1FailWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 27 }	
+	
+FansCirc2FailWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 28 }	
+	
+CompOFFbyAMBLim  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 29 }	
+	
+WkHrLimFanCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 30 }	
+	
+WkHrLimFanCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 31 }	
+	
+LowPADefficiency  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 32 }	
+	
+FansFreecoolFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 33 }	
+	
+FeedbackFCValveFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 34 }	
+	
+HiPressCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 35 }	
+	
+LowPressCircuit1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 36 }	
+	
+LowSuperheatCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 37 }	
+	
+THComp1Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 38 }	
+	
+THComp2Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 39 }	
+	
+THComp3Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 40 }	
+	
+FanOverrideCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 41 }	
+	
+UnloadCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 42 }	
+	
+CriticCondensPressCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 43 }	
+	
+LowCondensPressCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 44 }	
+	
+OutEnvelopCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 45 }	
+	
+ContactComp1Circ1Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 46 }	
+	
+ContactComp2Circ1Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 47 }	
+	
+ContactComp3Circ1Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 48 }	
+
+CondensPressSens1Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 50 }	
+	
+LiquidTempSens1Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 51 }	
+	
+EEV1PressSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 52 }	
+	
+EEV1TempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 53 }	
+	
+EEV1FeedbackFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 54 }	
+	
+EEV1HighSuperheat  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 55 }	
+
+PowerFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 56 }	
+	
+EEV1CommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 57 }	
+	
+EEV1MotorErr  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 58 }	
+	
+Pump1ModbusFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 59 }	
+	
+Pump2ModbusFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 60 }	
+	
+HiPressCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 61 }	
+	
+LowPressCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 62 }	
+	
+LowSuperheatCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 63 }	
+	
+THComp1Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 64 }	
+	
+THComp2Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 65 }	
+	
+THComp3Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 66 }	
+	
+FanOverrideCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 67 }	
+	
+UnloadCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 68 }	
+	
+CriticCondensPressCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 69 }	
+	
+LowCondensPressCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 70 }	
+	
+OutEnvelopCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 71 }	
+	
+ContactComp1Circ2Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 72 }	
+	
+ContactComp2Circ2Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 73 }	
+	
+ContactComp3Circ2Glued  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 74 }	
+	
+UnitFreezeProt  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 75 }	
+	
+CondensPressSens2Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 76 }	
+	
+LiquidTempSens2Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 77 }	
+	
+EEV2PressSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 78 }	
+	
+EEV2TempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 79 }	
+	
+EEV2FeedbackFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 80 }	
+	
+EEV2HighSuperheat  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 81 }	
+	
+PowerFailLineB  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 82 }	
+	
+EEV2CommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 83 }	
+	
+EEV2MotorErr  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 84 }	
+	
+WkHrLimitPump1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 85 }	
+	
+WkHrLimitPump2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 86 }	
+	
+PadProtectWarnThresold  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 87 }	
+	
+PadProtectAlarmThresold  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 88 }	
+	
+RemovePowerFromUnit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 89 }	
+	
+UserInpTrigAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 90 }	
+	
+UserInpTrigWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 91 }	
+	
+EnergyMeterCommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 92 }	
+	
+AdiabCommErr  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 93 }	
+	
+EnergyMeter2CommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 94 }	
+	
+WkHrLimComp1Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 95 }	
+	
+WkHrLimComp2Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 96 }	
+	
+WkHrLimComp3Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 97 }	
+	
+WkHrLimComp1Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 98 }	
+	
+WkHrLimComp2Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 99 }	
+	
+WkHrLimComp3Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 100 }	
+
+ExpModuleCommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 101 }	
+
+FlowMeterFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 102 }	
+
+RemoteOff  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 103 }	
+	
+FlowTransFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 104 }	
+	
+EvapLowFlowProt  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 105 }	
+	
+InstableWaterFlow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 107 }	
+	
+LowWaterFlowWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 108 }	
+	
+HighWaterFlowWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 109 }	
+	
+LowWaterFlowAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 110 }	
+	
+HighWaterFlowAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 111 }	
+	
+LowRefrChargeC1Warn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 112 }	
+	
+LowRefrChargeC1Alarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 113 }	
+	
+LowRefrChargeC2Warn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 114 }	
+	
+LowRefrChargeC2Alarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 115 }	
+		
+OutOfEnvCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 116 }	
+		
+OutOfEnvCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 117 }	
+		
+VLP1StartAttemptCir1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 118 }	
+		
+VLP1StartAttemptCir2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 119 }	
+		
+VLP1Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 120 }	
+		
+VLP2Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 121 }	
+		
+VLP1Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 122 }	
+		
+VLP2Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 123 }	
+		
+LongPowOffDetect  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 124 }	
+		
+LongPowFailDetect  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 125 }	
+		
+TooFastSpeedVarReq_Wrn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 126 }	
+		
+TooFastSpeedVarReq_Alm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 127 }	
+		
+OilLevAlarmCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 128 }	
+		
+OilLevAlarmCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 129 }	
+		
+AuxPowFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 130 }	
+		
+Com1OFFbyAbnormPress  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 131 }	
+		
+Com2OFFbyAbnormPress  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 132 }	
+		
+UnloadC1OFFbyAbnormPress  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 133 }	
+		
+UnloadC2OFFbyAbnormPress  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 134 }	
+		
+CriticEvapPressC1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 135 }	
+		
+CriticEvapPressC2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 136 }	
+		
+NoDiffPressC1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 137 }	
+		
+NoDiffPressC2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 138 }	
+	
+NoCondWatFlow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 139 }	
+	
+CondInlSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 140 }	
+	
+CondOutSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 141 }	
+	
+WkHrsLimNoGPump  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 142 }	
+	
+DisTempCirc1SensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 143 }	
+	
+DisTempCirc2SensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 144 }	
+	
+ByPassValveFeedFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 145 }	
+	
+FansInitFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 146 }	
+	
+EnergyMeter3CommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 147 }	
+	
+LossOfWaterPress  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 148 }	
+	
+WaterPressSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 149 }	
+	
+CompStopByUserInp  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproAFCEvents 150 }	
+	
+		
+-- =============================================================================
+--  End lgpIproAFCEvents
+-- =============================================================================
+
+-- =============================================================================
+--  lgpIproEFC
+-- =============================================================================
+
+lgpIproEFC OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch is used to register information for the Emerson
+               Network Power EFC Indirect Evaporative Environmental product
+               family."
+   REFERENCE   "The registrations for the objects in this branch
+               are defined in the LIEBERT_GP_ADIABATIC.mib"
+    ::= { lgpAcProducts 31 }
+	
+-- =============================================================================
+--  lgpIproEFCReadParams
+-- =============================================================================
+
+lgpIproEFCReadParams OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO variables for AFC Units."
+    ::= { lgpIproEFC 1 }
+
+UnitStatusEFC OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 1 }
+
+ActTempSetp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 2 }
+
+ReturnTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 3 }
+
+SupplyTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 4 }
+
+ProcInTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 5 }
+
+ProcOutTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 6 }
+
+ReturnHum OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 7 }
+
+SupplyHum OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 8 }
+
+ProcInHum OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 9 }
+
+ProcOutHum OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 10 }
+
+CoolFanSpeed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 11 }
+
+ProcFanSpeed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 12 }
+
+ActWaterSprayReq OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 13 }
+
+ActCoolBckReq OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 14 }
+
+UnderFloorPress OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 15 }
+
+RemOnOff OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 16 }
+
+Compressor1Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 17 }
+
+CwValveReq OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 18 }
+
+RemCoolReq OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 19 }
+
+TimerZoneStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 20 }
+
+PowerMonitSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 21 }
+
+WkHrsCoolFan OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 22 }
+
+WkHrsProcFan OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 23 }
+
+WkHrsExtHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 24 }
+
+WkHrsCoolBck OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 25 }
+
+Pump1Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 26 }
+
+Pump2Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 27 }
+
+WkHrsPump1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 28 }
+
+WkHrsPump2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 29 }
+	 
+RemAisleTemp1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 30 }
+
+RemAisleTemp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 31 }
+
+RemAisleTemp3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 32 }
+
+RemAisleTemp4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 33 }
+
+RemAisleHumi1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 34 }
+
+RemAisleHumi2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 35 }
+
+RemAisleHumi3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 36 }
+
+RemAisleHumi4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 37 }
+
+InstantWaterConsump OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 38 }
+
+PUE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 39 }
+
+AirflowCooling OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 40 }
+
+AirflowProcess OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 41 }
+
+ATSPowerStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 42 }
+
+UnitCoolPower OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 43 }
+	 
+Compressor2Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 44 }
+	 
+Compressor3Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 45 }
+	 
+Compressor4Status OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 46 }
+	 
+WkHrsComp1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 47 }
+	 
+WkHrsComp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 48 }
+	 
+WkHrsComp3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 49 }
+	 
+WkHrsComp4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 50 }
+	 
+Comp1Capacity OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 51 }
+	 
+Comp3Capacity OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 52 }
+	 
+RefillValve OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 53 }
+	 
+DrainValve OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 54 }
+	 
+DeltaPressCoolClogFilt OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 55 }
+	 
+DeltaPressProcClogFilt OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 56 }
+	 
+LowAmbKitFeedback1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 57 }
+	 
+LowAmbKitFeedback2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 58 }
+	 
+PrimaryBypass1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 59 }
+	 
+PrimaryBypass2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 60 }
+	 
+TempInAirAfterHX OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 61 }
+	 
+DeltaPressOverHXprim OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 62 }
+	 
+DeltaPressOverHXproc OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 63 }
+	 
+WaterWasted OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 64 }
+	 
+DamperOpening OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 65 }
+	 
+CurrentDTR OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 66 }
+	 
+DamperPropBand OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 67 }
+	 
+DamperFactorInteg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 68 }
+	 
+UnitPowerMode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 69 } 
+	 
+UVLampWkHrs OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 70 } 
+	 
+STSStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 71 } 
+	 
+UnbalanceSource1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 72 } 
+	 
+UnbalanceSource2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 73 } 
+	 
+PhaseOrderStsSource1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 74 } 
+	 
+UnbalanceSource1Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 75 } 	
+	 
+PhaseOrderStsSource2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 76 } 
+	 
+UnbalanceSource2Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 77 } 
+	 
+FireDampSupply1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 78 } 
+	 
+FireDampSupply2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 79 } 
+	 
+FireDampReturn1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 80 } 
+	 
+FireDampReturn2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 81 } 
+	 
+PrimaryDampSupply1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 82 } 
+	 
+PrimaryDampSupply2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 83 } 
+	 
+PrimaryDampReturn1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 84 } 
+	 
+PrimaryDampReturn2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 85 } 
+
+RemAisleTemp5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 86 } 
+
+RemAisleTemp6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 87 } 
+
+RemAisleTemp7 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 88 } 
+
+RemAisleTemp8 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 89 } 
+
+RemAisleHumi5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 90 } 
+
+RemAisleHumi6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 91 } 
+
+RemAisleHumi7 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 92 } 
+
+RemAisleHumi8 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 93 } 
+
+CoolFanSts1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 94 } 
+
+CoolFanSts2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 95 } 
+
+CoolFanSts3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 96 } 
+
+CoolFanSts4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 97 } 
+
+CoolFanSts5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 98 } 
+
+CoolFanSts6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 99 } 
+
+CoolFanSts7 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 100 } 
+
+CoolFanSts8 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 101 } 
+
+CoolFanSts9 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 102 } 
+
+ProcFanSts1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 103 } 
+
+ProcFanSts2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 104 } 
+
+ProcFanSts3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 105 } 
+
+ProcFanSts4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 106 } 
+
+ProcFanSts5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 107 } 
+
+ProcFanSts6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 108 } 
+
+ProcFanSts7 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 109 } 
+
+ProcFanSts8 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 110 } 
+
+ProcFanSts9 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 111 } 
+
+ATS1Avail OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 112 } 
+
+ATS2Avail OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 113 } 
+
+IamMaster OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 114 } 
+
+DemandLimitSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 115 } 
+
+UnitOperMode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 116 } 
+
+PressSensValue OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 117 } 
+
+UnitPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 118 } 
+
+ProcFansPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 119 } 
+
+CoolFansPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 120 } 
+
+PumpsPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 121 } 
+
+CompsPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 122 } 
+
+ExtCondPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 123 } 
+
+ElectPanelPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 124 } 
+
+HumiPowerCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 125 } 
+
+RemAisleTemp9 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 126 } 
+
+RemAisleTemp10 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 127 } 
+
+RemAisleTemp11 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 128 } 
+
+RemAisleTemp12 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 129 } 
+
+RemAisleTemp13 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 130 } 
+
+RemAisleTemp14 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 131 } 
+
+RemAisleTemp15 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 132 } 
+
+RemAisleTemp16 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 133 } 
+
+RemAisleHumi9 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 134 } 
+
+RemAisleHumi10 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 135 } 
+
+RemAisleHumi11 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 136 } 
+
+RemAisleHumi12 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 137 } 
+
+RemAisleHumi13 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 138 } 
+
+RemAisleHumi14 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 139 } 
+
+RemAisleHumi15 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 140 } 
+
+RemAisleHumi16 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 141 } 
+
+ATSControlMode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 142 } 
+
+SetpShiftActive OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 143 } 
+
+ATSTransferStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 144 } 
+
+ExtHumidifierMod OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 145 } 
+
+BellyTankWaterLev OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 146 } 
+
+BellyTankPumpSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 147 } 
+
+BellyTankHeaterSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 148 } 
+
+BellyTankRefValvSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 149 } 
+
+BellyTankDrainValvSts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 150 } 
+
+MakeUpAirDamper OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 151 } 
+
+Panel1Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 152 } 
+
+Panel2Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 153 } 
+
+Panel3Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 154 } 
+
+Panel4Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 155 } 
+
+Panel5Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 156 } 
+
+Panel6Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 157 } 
+
+Panel7Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 158 } 
+
+Panel8Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 159 } 
+
+Panel9Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 160 } 
+
+Panel10Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 161 } 
+
+Panel11Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 162 } 
+
+Panel12Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 163 } 
+
+Panel13Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 164 } 
+
+Panel14Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 165 } 
+
+Panel15Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 166 } 
+
+Panel16Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 167 } 
+
+Panel17Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 168 } 
+
+Panel18Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 169 } 
+
+Panel19Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 170 } 
+
+Panel20Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 171 } 
+
+DehumStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 172 } 
+
+SecondRetTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 173 } 
+
+WetBulbTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 174 } 
+
+TempOverContainment OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 180 } 
+
+SecondATSPowerlineStatus OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 183 } 
+
+SecondATSUnbalanceSource1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 184 } 
+
+SecondATSUnbalanceSource2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 185 } 
+
+SecondATSPhaseOrderStsSource1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 186 } 
+
+SecondATSUnbalanceSource1Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 187 } 
+
+SecondATSPhaseOrderStsSource2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 188 } 
+
+SecondATSUnbalanceSource2Sts OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 189 } 
+
+SecondATSSource1Avail OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 190 } 
+
+SecondATSSource2Avail OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 191 } 
+
+RemotePressure1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 192 } 
+
+RemotePressure2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 193 } 
+
+RemotePressure3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 194 } 
+
+RemotePressure4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 195 } 
+
+RemotePressure5 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 196 } 
+
+RemotePressure6 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 197 } 
+
+RemotePressure7 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 198 } 
+
+RemotePressure8 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 199 } 
+
+RemotePressure9 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 200 } 
+
+RemotePressure10 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 201 } 
+
+RemotePressure11 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 202 } 
+
+RemotePressure12 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 203 } 
+
+RemotePressure13 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 204 } 
+
+RemotePressure14 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 205 } 
+
+RemotePressure15 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 206 } 
+
+RemotePressure16 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 207 } 
+
+UnitPressFreezOpenDoor OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 208 } 
+
+AirflowCoolMSW OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 209 } 
+
+AirflowCoolLSW OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 210 } 
+
+AirflowProcMSW OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 211 } 
+
+AirflowProcLSW OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 212 } 
+
+SysDewPointRetTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 213 } 
+
+AntilegCycNotif OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 214 } 
+
+CumRefillWatCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 215 } 
+
+CumDrainWatCons OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 216 } 
+
+ModRefillValveFbk OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 217 } 
+
+WaterLevelMeter OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 218 } 
+
+pHreading OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 219 } 
+
+ConductivityReading OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCReadParams 220 } 
+
+-- =============================================================================
+--  End lgpIproEFCReadParams
+-- =============================================================================
+	
+-- =============================================================================
+--  lgpIproEFCWriteParams
+-- =============================================================================
+
+lgpIproEFCWriteParams OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO variables for AFC Units."
+    ::= { lgpIproEFC 2 }
+
+AlarmReset OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 1 }
+
+SupplySet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 2 }
+
+RemoteSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 3 }
+
+BckSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 4 }
+
+UndFloorPressSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 5 }
+
+HiSupTempAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 6 }
+
+HiSupHumAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 7 }
+
+HiRemTempAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 8 }
+
+HiUndFloorPress OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 9 }
+
+LoUndFloorPress OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 10 }
+
+UnitOn-Off OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 11 }
+
+LimWkHrsCoolFans OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 12 }
+
+LimWkHrsProcFans OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 13 }
+
+LimWkHrsExtHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 14 }
+
+LimWkHrsCoolBck OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 15 }
+
+LimitWkHrsPump1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 16 }
+
+LimitWkHrsPump2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 17 }
+	 
+EventAckn OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 18 }
+
+WatSavDryContc OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 19 }
+	 
+DamperSetpoint OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 20 }
+	 
+EmergencyPowerCap OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 21 }
+	 
+FractEmergPowerCapProcFans OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 22 }
+	 
+LimitWkHrsUVLamp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 23 }
+	 
+CoolingFansSpeed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 24 }
+	 
+NormalPowerCap OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 25 }
+	 
+SysRegSetp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 26 }
+	 
+RemFireAlarmInp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 27 }
+	 
+HeatRecoveryInp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 28 }
+	 
+LowLimSStpWintSavMode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 29 }
+	 
+FreezeProtThresh1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 30 }
+	 
+FreezeProtThresh2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 31 }
+	 
+Unit_On_Off OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 32 }
+	 
+PosDiffPermitBetwTProbes OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 33 }
+	 
+NegDiffPermitBetwTProbes OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 34 }
+	 
+BellyTankOverflLim OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 35 }
+	 
+SignalOpenDoor OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 36 }
+	 
+RefValvForcInAFmode OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 37 }
+	 
+EnSingSupplProbeWaEvt OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 38 }
+	 
+MaxCoolFansAirflow OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { lgpIproEFCWriteParams 39 }
+	 
+-- =============================================================================
+--  End lgpIproEFCWriteParams
+-- =============================================================================
+
+lgpIproEFCEvents OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains iPRO Alarms for EFC Units."
+    ::= { lgpIproEFC 3 }
+
+-- =============================================================================
+--  lgpIproEFCEvents
+-- =============================================================================
+	
+CoolFanFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 6 }	
+	
+ProcFanFail  OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 7 }
+	
+RetTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 8 }
+	
+SupTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 9 }
+	
+InProcTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 10 }
+	
+OutProcTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 11 }
+	
+WatSprayTempSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 12 }
+	
+RetHumSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 13 }
+	
+SupHumSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 14 }
+	
+InProcHumSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 15 }
+	
+OutProcHumSensFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 16 }
+	
+HighSupTempWarn   OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 17 }
+	
+LowSupTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 18 }
+	
+HighSupHumWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 19 }
+	
+LowSupHumWarn   OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 20 }
+	
+HighSupTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 21 }
+	
+LowSupTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 22 }
+	
+HighSupHumAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 23 }
+	
+LowSupHumAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 24 }
+	
+HighRemTempWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 25 }
+	
+HighRemTempAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 26 }
+	
+CoolFansModbusFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 27 }
+	
+ProcFansModbusFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 28 }
+	
+WatSprayFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 29 }
+	
+C1FreezeProtection  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 30 }
+	
+C2FreezeProtection  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 31 }
+	
+WrongPosLAKDamper1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 32 }
+	
+CondPressSensFail1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 33 }
+	
+EvaPressSensFail1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 34 }
+	
+CondPressSensFail2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 35 }
+	
+EvaPressSensFail2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 36 }
+	
+EnergyMeterCommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 37 }
+	
+STSFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 38 }
+	
+BellyTankPumpWkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 39 }
+	
+UserWarning  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 40 }
+	
+TimerZone1Act  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 41 }
+	
+TimerZone1Deact  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 42 }
+	
+TimerZone2Act  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 43 }
+	
+TimerZone2Deact   OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 44 }
+	
+SingleCoolFanFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 45 }
+	
+SingleProcFanFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 46 }
+	
+WaterPriorityStartUpFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 47 }
+	
+AntilegDryCycle  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 48 }
+	
+CoolClogFilter  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 49 }
+	
+ProcClogFilterLev  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 50 }
+	
+ProcClogFilter  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 52 }
+	
+PowerFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 53 }
+	
+ProcFansWkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 54 }
+	
+CoolFansWkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 55 }
+	
+ExtHumiWkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 56 }
+	
+Pump1WkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 57 }
+	
+Pump2WkHrsLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 58 }
+	
+WrongPosLAKDamper2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 59 }
+	
+Reset    OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 60 }
+	
+AntilegionellaCycle  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 61 }
+	
+HighWaterHardness  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 62 }
+	
+LossChargeProtDuringInitCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 63 }	
+	
+LossChargeProtDuringInitCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 64 }	
+	
+WrongPosLAKDamper3  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 65 }	
+	
+WrongPosLAKDamper4  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 66 }	
+	
+HighChillWatTemp  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 67 }	
+	
+LossChillWatFlow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 68 }	
+	
+AisleHumWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 69 }	
+	
+OverpressWarn  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 70 }	
+	
+OverpressAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 71 }	
+	
+BleedOffFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 72 }	
+	
+WaterDrainFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 73 }	
+	
+Pump1Failure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 74 }	
+	
+Pump2Failure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 75 }	
+	
+NoRefilling  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 76 }	
+	
+LossChargeProtCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 77 }	
+	
+LossChargeProtCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 78 }	
+	
+LossChargeProtCirc1StopComp  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 79 }	
+	
+LossChargeProtCirc2StopComp  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 80 }	
+	
+ExpModule1Lost  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 81 }	
+	
+ExpModule2Lost  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 82 }	
+	
+RemProbeSingleFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 83 }	
+	
+GenRemoteProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 84 }	
+	
+TempProbeAnomaly  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 85 }	
+		
+ATSGeneralAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 86 }	
+		
+ATSCommFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 87 }	
+		
+UnitUsingEmergencyPower  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 88 }	
+		
+CoolingAirflowProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 89 }	
+		
+ExpansionModule3Lost  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 90 }	
+			
+ProcAirflowProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 91 }	
+			
+LowColdAngleTempProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 92 }	
+			
+LowSupAirFlow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 93 }	
+			
+IntAftHXTempProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 94 }	
+			
+PrimaryBypassInUse  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 95 }	
+			
+WrongPositionHXBypass1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 96 }	
+			
+WrongPositionHXBypass2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 97 }	
+			
+IncorrectExtDamperPos  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 98 }	
+		
+SystemEmergencyMode  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 99 }	
+
+THComp1Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 100 }	
+
+THComp2Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 101 }	
+	
+THComp3Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 102 }	
+
+THComp4Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 103 }	
+
+THComp1Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 104 }	
+
+THComp2Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 105 }	
+
+THComp3Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 106 }	
+
+THComp4Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 107 }	
+
+HPCircuit1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 108 }	
+
+HPCircuit2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 109 }	
+
+LPCircuit1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 110 }	
+
+LPCircuit2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 111 }	
+
+Comp1ShortCycleCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 112 }	
+
+Comp2ShortCycleCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 113 }	
+
+Comp3ShortCycleCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 114 }	
+
+Comp4ShortCycleCirc1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 115 }	
+
+Comp1ShortCycleCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 116 }	
+
+Comp2ShortCycleCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 117 }	
+
+Comp3ShortCycleCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 118 }	
+
+Comp4ShortCycleCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 119 }	
+
+Comp1Circ1WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 120 }	
+
+Comp2Circ1WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 121 }	
+
+Comp3Circ1WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 122 }	
+
+Comp4Circ1WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 123 }	
+
+Comp1Circ2WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 124 }	
+
+Comp2Circ2WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 125 }	
+
+Comp3Circ2WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 126 }	
+
+Comp4Circ2WHouLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 127 }	
+
+Comp1Circ1TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 128 }	
+
+Comp2Circ1TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 129 }	
+
+Comp3Circ1TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 130 }	
+
+Comp4Circ1TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 131 }	
+
+Comp1Circ2TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 132 }	
+
+Comp2Circ2TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 133 }	
+
+Comp3Circ2TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 134 }	
+
+Comp4Circ2TempProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 135 }	
+
+AlarmCoolClogFilter  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 136 }	
+
+HXCoolPressProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 137 }	
+
+HXProcPressProbeFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 138 }	
+
+LowDiffPressOverHXCooling  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 139 }	
+
+LowDiffPressOverHXProcess  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 140 }	
+
+IncorrSecondExtDamperPos  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 141 }	
+
+CompPowerFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 142 }	
+
+ExtHumiFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 143 }	
+
+SingInlProcHumProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 144 }	
+
+WaterMeterFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 145 }	
+
+FireDamperClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 146 }	
+
+ATS2CommErrorAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 147 }	
+
+ECCFansAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 148 }	
+
+MissingMinimunAirflow  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 149 }	
+
+UVLampFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 150 }	
+
+PrimaryDamperCompletelyClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 151 }	
+
+ReturnDamper1isClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 152 }	
+
+ReturnDamper2isClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 153 }	
+
+SupplyDamper1isClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 154 }	
+
+SupplyDamper2isClosed  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 155 }	
+
+ReturnDamper1isOpen  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 156 }	
+
+ReturnDamper2isOpen  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 157 }	
+
+SupplyDamper1isOpen  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 158 }	
+
+SupplyDamper2isOpen  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 159 }	
+
+UVLampWorkingHoursLimit  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 160 }	
+
+NoAdiabCoolAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 161 }	
+
+NoCompCoolAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 162 }	
+
+MakeUpAirWrongPos  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 163 }	
+
+MakeUpAirClogFilter  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 164 }	
+
+THlowComp1Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 165 }	
+
+THlowComp2Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 166 }	
+
+THlowComp3Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 167 }	
+
+THlowComp4Circ1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 168 }	
+
+THlowComp1Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 169 }	
+
+THlowComp2Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 170 }	
+
+THlowComp3Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 171 }	
+
+THlowComp4Circ2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 172 }	
+
+SmartAislePressProbe1Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 173 }	
+
+FansInitializationFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 174 }	
+
+SmartAislePressFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 175 }	
+
+OverPressProbe1Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 176 }	
+
+OverPressProbe2Fail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 177 }	
+
+AisleHumiAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 178 }	
+
+SupplyProbeSingleFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 179 }	
+
+FireAlarm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 180 }	
+
+ThermalRunaway  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 181 }	
+
+WaterLevSwitchWrongPos  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 182 }	
+
+BrokenFlowSwitch  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 183 }	
+
+BrokenMinLevelSwitch  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 184 }	
+
+MissConfFileIO  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 185 }	
+
+SinglRetTempProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 186 }	
+
+ECCFansAlarmCirc2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 187 }	
+
+SinglProcInlTempProbFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 188 }	
+
+EnergyMeter2CommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 189 }	
+
+ForcedAntiLegionellaCycle  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 190 }	
+
+EEV1GenFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 191 }	
+
+EEV2GenFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 192 }	
+
+EEV3GenFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 193 }	
+
+EEV4GenFailure  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 194 }	
+
+EEV1  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 195 }	
+
+EEV2  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 196 }	
+
+EEV3  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 197 }	
+
+EEV4  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 198 }	
+
+BellyTankWaterLevelFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 199 }	
+
+BellyTankRefillFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 200 }	
+
+BellyTankDrainFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 201 }	
+
+AntifrRefillValvOpening  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 202 }	
+
+RefillValveWrongPos  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 203 }	
+
+WaterLevMeteRFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 204 }	
+
+pHMeterCommFail  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 205 }	
+
+UnstablENetwComm  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 206 }	
+
+AbnormalPHLevelsWa  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 207 }	
+
+AbnormalPHLevelsAl  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 208 }	
+
+ActPumpPHMeterWinter  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 209 }	
+
+DriedOutpHProbe  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 210 }	
+
+WaterPressLossMainLine  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 211 }	
+
+WaterPressLossAuxLine  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 212 }	
+
+pHProbeCalibRequired  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 213 }	
+
+ConductProbeCalibRequired  OBJECT-IDENTITY
+     STATUS current
+     DESCRIPTION
+        ""
+    ::= { lgpIproEFCEvents 214 }	
+
+-- =============================================================================
+--  End lgpIproEFCEvents
+-- =============================================================================
+
+END

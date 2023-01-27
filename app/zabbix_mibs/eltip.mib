@@ -1,0 +1,30 @@
+ELTEX-MES-IP DEFINITIONS ::= BEGIN
+
+-- Title:      ELTEX MES IP Private Extension
+-- Version:    1.0
+-- Date:       12 Feb 2014
+
+IMPORTS
+    eltMes                                                  FROM ELTEX-MES;
+
+
+eltMesIpSpec MODULE-IDENTITY
+       LAST-UPDATED "201402120000Z"
+       ORGANIZATION "Eltex Enterprise Co, Ltd."
+       CONTACT-INFO
+            "www.eltex.nsk.ru"
+       DESCRIPTION
+            "The private MIB module definition for IP MIB."
+       REVISION "200606220000Z"
+       DESCRIPTION
+            "Initial version of this MIB."
+       ::= { eltMes 91 }
+
+
+eltMesOspf OBJECT IDENTIFIER ::=  { eltMesIpSpec 1 }
+-- see eltIpRouter.mib
+
+
+
+END
+

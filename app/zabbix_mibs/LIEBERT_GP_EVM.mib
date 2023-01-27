@@ -1,0 +1,2394 @@
+
+LIEBERT-GP-EVM-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+         OBJECT-TYPE
+                 FROM RFC-1212
+	    lgpAcProducts
+			    FROM LIEBERT-GP-REGISTRATION-MIB
+		;
+
+lgpEVM OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch is used to register Liebert Environmental 
+               EVM product information."
+    ::= { lgpAcProducts 21 }
+
+
+Microface OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Miroface variables."
+    ::= { lgpEVM 1 }
+
+Hironet OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet structure."
+    ::= { Microface 1 }
+
+-- =============================================================================
+--  HironetBlockId - Hironet Block Structure
+-- =============================================================================
+
+HironetBlockId1 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 1."
+    ::= { Hironet 1 }
+
+-- =============================================================================
+--  Block 1
+-- =============================================================================
+
+Alarm OBJECT-TYPE
+     SYNTAX  INTEGER 
+	 ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "ALARME"
+     ::= { HironetBlockId1 1 }
+	 
+-- =============================================================================
+--  End Block 1
+-- =============================================================================
+
+HironetBlockId4 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 4."
+    ::= { Hironet 4 }
+
+-- =============================================================================
+--  Block 4
+-- =============================================================================
+
+Rtc_Min OBJECT-TYPE
+     SYNTAX  INTEGER 
+	 ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Real Time Clock minutes"
+     ::= { HironetBlockId4 1 }
+
+Rtc_Hou OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Real Time Clock hours"
+     ::= { HironetBlockId4 2 }
+
+Rtc_Day OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Real Time Clock day"
+     ::= { HironetBlockId4 3 }
+
+Rtc_Mon OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Real Time Clock month"
+     ::= { HironetBlockId4 4 }
+     
+Rtc_Yea OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Real Time Clock year"
+     ::= { HironetBlockId4 5 }
+
+-- =============================================================================
+--  End Block 4
+-- =============================================================================
+
+HironetBlockId5 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 5."
+    ::= { Hironet 5 }
+
+-- =============================================================================
+--  Block 5
+-- =============================================================================
+
+TempSet_HL OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Temperature setpoint set from Hirolink over Hironet. Not stored in EEPROM, because it will be activated continuously!"
+     ::= { HironetBlockId5 1 }
+
+TimeRec12M OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Microface Logging Time of Graphic Data Record 1 and 2 (Temp + Humi); 0=2.5min, 1=5min, 2=30min, 3=1h, 4=12h, 5=24h, 6=2d, 7=4d, 8=8d."
+     ::= { HironetBlockId5 2 }
+
+TimeRec34M OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Microface Logging Time of Graphic Data Record 3 and 4 (Temp + Humi); 0=2.5min, 1=5min, 2=30min, 3=1h, 4=12h, 5=24h, 6=2d, 7=4d, 8=8d."
+     ::= { HironetBlockId5 3 }
+
+Comp_TH_EN OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Compressor TH1 and TH2 Alarm enable."
+     ::= { HironetBlockId5 4 }
+
+Hum_Compen OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Humidifier compensation"
+     ::= { HironetBlockId5 5 }
+
+HandShakHL OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             "Connectivity handshake-status between Mic and Hirolink. -1 = Connectivity deactivated (Set by HL) , 0 = Connectivity Off (Set by Mic) , 1 = Start / Save Original Setpoints (Set by HL) , 2 = Ready / Setpoints Stored (Set by Mic) , 3 = HL Alive / Change Value (Set by HL) , 4 = Timeout Refreshed / Change Done (Set by Mic) , 5 = Stop / Restore Setpoints (Set by HL)"
+     ::= { HironetBlockId5 6 }
+
+-- =============================================================================
+--  End Block 5
+-- =============================================================================
+
+HironetBlockId6 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 6."
+    ::= { Hironet 6 }
+
+-- =============================================================================
+--  Block 6
+-- =============================================================================
+
+AnaOutSel1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId6 1 }
+
+AnaOutSel2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId6 2 }
+
+-- =============================================================================
+--  End Block 6
+-- =============================================================================
+
+HironetBlockId7 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 7."
+    ::= { Hironet 7 }
+
+-- =============================================================================
+--  Block 7
+-- =============================================================================
+
+dt_RoomAMB OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 1 }
+
+dt_RoomGLY OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 2 }
+
+Stop_FC_at OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 3 }
+
+TempSet2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 4 }
+
+TempSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 5 }
+
+HumiSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 6 }
+
+SupplySet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 7 }
+
+FanSpeed OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 8 }
+
+TempProp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 9 }
+
+HumiProp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 10 }
+
+TempIntg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 11 }
+
+HumiIntg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 12 }
+
+HumiCtrl OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 13 }
+
+DeHumHyst OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId7 14 }
+
+-- =============================================================================
+--  End Block 7
+-- =============================================================================
+
+HironetBlockId8 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 8."
+    ::= { Hironet 8 }
+
+-- =============================================================================
+--  Block 8
+-- =============================================================================
+
+HourFC OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 1 }
+
+HourComp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 2 }
+
+HourCond OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 3 }
+
+HourComp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 4 }
+
+HourHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 5 }
+
+HourHeat OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 6 }
+
+HourCondMa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 7 }
+
+HourCompMa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 8 }
+
+HourComp2M OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 9 }
+
+HourHumiMa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId8 10 }
+
+-- =============================================================================
+--  End Block 8
+-- =============================================================================
+
+HironetBlockId9 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 9."
+    ::= { Hironet 9 }
+
+-- =============================================================================
+--  Block 9
+-- =============================================================================
+
+HMSysOn_Mi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 1 }
+
+Units_Mic OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 2 }
+
+ShareEN OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 3 }
+
+Cascade_EN OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 4 }
+
+STD_Set OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 5 }
+
+AuRestart OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 6 }
+
+RemoteEN OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 7 }
+
+StdByUnit OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 8 }
+
+RotationEN OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 9 }
+
+RotatHou OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 10 }
+
+RotatMin OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 11 }
+
+PerformRot OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId9 12 }
+
+-- =============================================================================
+--  End Block 9
+-- =============================================================================
+
+HironetBlockId10 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 10."
+    ::= { Hironet 10 }
+
+-- =============================================================================
+--  Block 10
+-- =============================================================================
+
+HiTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 1 }
+
+LoTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 2 }
+
+HiHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 3 }
+
+LoHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 4 }
+
+HiTempE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 5 }
+
+LoTempE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 6 }
+
+HiHumiE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 7 }
+
+LoHumiE OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 8 }
+
+LPd OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 9 }
+
+UserAl OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 10 }
+
+UserAl2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 11 }
+
+AirflowWa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 12 }
+
+FanWaAl OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 13 }
+
+LiquiAl OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId10 14 }
+
+-- =============================================================================
+--  End Block 10
+-- =============================================================================
+
+HironetBlockId11 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 11."
+    ::= { Hironet 11 }
+
+-- =============================================================================
+--  Block 11
+-- =============================================================================
+
+Firmware OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 1 }
+
+ValveTime OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 2 }
+
+ValveOpen OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 3 }
+
+HeatSteps OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 4 }
+
+Heat_DeadB OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 5 }
+
+DehumTyp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 6 }
+
+DehumAsWa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 7 }
+
+HumTyp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 8 }
+
+HumSup OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 9 }
+
+HumSteam OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId11 10 }
+
+-- =============================================================================
+--  End Block 11
+-- =============================================================================
+
+HironetBlockId12 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 12."
+    ::= { Hironet 12 }
+
+-- =============================================================================
+--  Block 12
+-- =============================================================================
+
+Sle1HouBeg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 1 }
+
+Sle1MinBeg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 2 }
+
+Sle1HouEnd OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 3 }
+
+Sle1MinEnd OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 4 }
+
+Sle2HouBeg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 5 }
+
+Sle2MinBeg OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 6 }
+
+Sle2HouEnd OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 7 }
+
+Sle2MinEnd OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 8 }
+
+SleepMo OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 9 }
+
+SleepTu OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 10 }
+
+SleepWe OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 11 }
+
+SleepTh OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 12 }
+
+SleepFr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 13 }
+
+SleepSa OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 14 }
+
+SleepSu OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 15 }
+
+DeadSet OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 16 }
+
+SleRestore OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId12 17 }
+
+-- =============================================================================
+--  End Block 12
+-- =============================================================================
+
+HironetBlockId13 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 13."
+    ::= { Hironet 13 }
+
+-- =============================================================================
+--  Block 13
+-- =============================================================================
+
+CalTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 1 }
+
+CalHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 2 }
+
+CalPTC OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 3 }
+
+CalAMB OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 4 }
+
+CalGLYC OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 5 }
+
+CalEEAPT OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 6 }
+
+CalEEAPH OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 7 }
+
+CalHT11 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 8 }
+
+CalHT12 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 9 }
+
+CalHT21 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 10 }
+
+CalHT22 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId13 11 }
+
+-- =============================================================================
+--  End Block 13
+-- =============================================================================
+
+HironetBlockId14 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 14."
+    ::= { Hironet 14 }
+
+-- =============================================================================
+--  Block 14
+-- =============================================================================
+
+GenAlarm OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-write
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId14 1 }
+
+-- =============================================================================
+--  End Block 14
+-- =============================================================================
+
+HironetBlockId15 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 15."
+    ::= { Hironet 15 }
+
+-- =============================================================================
+--  Block 15
+-- =============================================================================
+
+MyAddress OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId15 1 }
+
+RTC_Valid OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId15 2 }
+
+RTC_Wdy OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId15 3 }
+
+MyGroup OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId15 4 }
+
+MySubGroup OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId15 5 }
+
+-- =============================================================================
+--  End Block 15
+-- =============================================================================
+
+HironetBlockId16 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 16."
+    ::= { Hironet 16 }
+
+-- =============================================================================
+--  Block 16
+-- =============================================================================
+
+HumiSet_ac OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 1 }
+
+BlinkGreen OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 2 }
+
+Dummy4_mr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 3 }
+
+Dummy3_mr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 4 }
+
+Dummy2_mr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 5 }
+
+Dummy1_mr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId16 6 }
+
+
+-- =============================================================================
+--  End Block 16
+-- =============================================================================
+
+HironetBlockId17 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 17."
+    ::= { Hironet 17 }
+
+-- =============================================================================
+--  Block 17
+-- =============================================================================
+
+AnaRadcool OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 1 }
+
+AnaOutRam1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 2 }
+
+AnaOutRam2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 3 }
+
+AnaAlarmO1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 4 }
+
+AnaAlarmO2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 5 }
+
+AnaHeatOut OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 6 }
+
+ManCWRamp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 7 }
+
+ManCoRamp1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 8 }
+
+ManCoRamp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 9 }
+
+ManHWRamp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 10 }
+
+ManHURamp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 11 }
+
+ManSSRamp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId17 12 }
+
+Valve3P OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "3 point valve 1 position"
+     ::= { HironetBlockId17 13 }
+
+Valve3P_2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "3 point valve 2 position"
+     ::= { HironetBlockId17 14 }
+
+-- =============================================================================
+--  End Block 17
+-- =============================================================================
+
+HironetBlockId18 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 18."
+    ::= { Hironet 18 }
+
+-- =============================================================================
+--  Block 18
+-- =============================================================================
+
+SinglState OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 1 }
+
+FC_Cond OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 2 }
+
+TempSet_ac OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 3 }
+
+ShTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 4 }
+
+ShHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 5 }
+
+ShAMB_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 6 }
+
+ShGLY_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 7 }
+
+LocTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 8 }
+
+SymFan OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 9 }
+
+SymDehumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 10 }
+
+SymHeat1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 11 }
+
+SymHeat2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 12 }
+
+SymHeat3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 13 }
+
+SymHeat4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 14 }
+
+SymCool1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 15 }
+
+SymCool2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 16 }
+
+SymCool3 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 17 }
+
+SymCool4 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 18 }
+
+SymHumi1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 19 }
+
+SymHumi2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId18 20 }
+
+-- =============================================================================
+--  End Block 18
+-- =============================================================================
+
+HironetBlockId19 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 19."
+    ::= { Hironet 19 }
+
+-- =============================================================================
+--  Block 19
+-- =============================================================================
+
+AMB_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 1 }
+
+GLYC_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 2 }
+
+HT21 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 3 }
+
+HT22 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 4 }
+
+HT_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 5 }
+
+HT_Humi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 6 }
+
+PTC_Temp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 7 }
+
+PTC_TempDi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 8 }
+
+GLYC_TempD OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 9 }
+
+EEAPTemp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 10 }
+
+EEAPHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 11 }
+
+HT11 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 12 }
+
+HT12 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId19 13 }
+
+-- =============================================================================
+--  End Block 19
+-- =============================================================================
+
+HironetBlockId20 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 20."
+    ::= { Hironet 20 }
+
+-- =============================================================================
+--  Block 20
+-- =============================================================================
+
+ManHumi OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 1 }
+
+ManComp2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 2 }
+
+ManFan OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 3 }
+
+ManComp OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 4 }
+
+ManDrain OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 5 }
+
+ManHeat1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 6 }
+
+ManHeat2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 7 }
+
+ManDehum OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId20 8 }
+
+-- =============================================================================
+--  End Block 20
+-- =============================================================================
+
+HironetBlockId21 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 21."
+    ::= { Hironet 21 }
+
+-- =============================================================================
+--  Block 21
+-- =============================================================================
+
+Airflow OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId21 1 }
+
+LiquiSen OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId21 2 }
+
+HCurr OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId21 3 }
+
+-- =============================================================================
+--  End Block 21
+-- =============================================================================
+
+HironetBlockId22 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 22."
+    ::= { Hironet 22 }
+
+-- =============================================================================
+--  Block 22
+-- =============================================================================
+
+InUSR OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 1 }
+
+InUSR2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 2 }
+
+InTSR OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 3 }
+
+InCF OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 4 }
+
+InLP1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 5 }
+
+InLP2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 6 }
+
+InHP1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 7 }
+
+InHP2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 8 }
+
+InREM OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 9 }
+
+InLSI OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 10 }
+
+InDF OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 11 }
+
+InTH1 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 12 }
+
+InTH2 OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             " "
+     ::= { HironetBlockId22 13 }
+
+-- =============================================================================
+--  End Block 22
+-- =============================================================================
+
+HironetBlockId23 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 23."
+    ::= { Hironet 23 }
+
+-- =============================================================================
+--  Block 23
+-- =============================================================================
+
+-- =============================================================================
+--  End Block 23
+-- =============================================================================
+
+HironetBlockId24 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 24."
+    ::= { Hironet 24 }
+
+-- =============================================================================
+--  Block 24
+-- =============================================================================
+
+-- =============================================================================
+--  End Block 24
+-- =============================================================================
+
+HironetBlockId25 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 25."
+    ::= { Hironet 25 }
+
+-- =============================================================================
+--  Block 25
+-- =============================================================================
+
+-- =============================================================================
+--  End Block 25
+-- =============================================================================
+
+HironetBlockId26 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 26."
+    ::= { Hironet 26 }
+
+-- =============================================================================
+--  Block 26
+-- =============================================================================
+
+HB_Error OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Is Nonezero if an error on the hirobus has occured."
+     ::= { HironetBlockId26 13 }
+
+-- =============================================================================
+--  End Block 26
+-- =============================================================================
+
+HironetBlockId27 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 27."
+    ::= { Hironet 27 }
+
+-- =============================================================================
+--  Block 27
+-- =============================================================================
+
+
+-- =============================================================================
+--  End Block 27
+-- =============================================================================
+
+HironetBlockId28 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 28."
+    ::= { Hironet 28 }
+
+-- =============================================================================
+--  Block 28
+-- =============================================================================
+
+OnOffK_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "OnOffKey."
+     ::= { HironetBlockId28 7 }
+
+AnaIn0_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "AnaIn0 in INT statt UINT"
+     ::= { HironetBlockId28 9 }
+
+AnaIn2_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "AnaIn2 in INT statt UINT"
+     ::= { HironetBlockId28 10 }
+
+-- =============================================================================
+--  End Block 28
+-- =============================================================================
+
+HironetBlockId29 OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Block 29."
+    ::= { Hironet 29 }
+
+-- =============================================================================
+--  Block 29
+-- =============================================================================
+
+GLYC2_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Glycol-temperature 2 (by Subgroup-Microface 2)"
+     ::= { HironetBlockId29 1 }
+
+AMB2_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Ambiens-temperature 2 (by Subgroup-Microface 2)"
+     ::= { HironetBlockId29 2 }
+
+OpenV1_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Open 3-point-valve 1 (for Microface 2 subgroup-management)"
+     ::= { HironetBlockId29 3 }
+
+OpenV2_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Open 3-point-valve 2 (for Microface 2 subgroup-management)"
+     ::= { HironetBlockId29 4 }
+
+CloseV1_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Close 3-point-valve 1 (for Microface 2 subgroup-management)"
+     ::= { HironetBlockId29 5 }
+
+CloseV2_SS OBJECT-TYPE
+     SYNTAX  INTEGER
+     ACCESS  read-only
+     STATUS  mandatory
+     DESCRIPTION
+             "Close 3-point-valve 2 (for Microface 2 subgroup-management)"
+     ::= { HironetBlockId29 6 }
+
+-- =============================================================================
+--  End Block 29
+-- =============================================================================
+
+Alarme OBJECT-IDENTITY
+   STATUS      current
+   DESCRIPTION "This branch contains Hironet Alarms."
+    ::= { Hironet 50 }
+
+-- =============================================================================
+--  Alarme
+-- =============================================================================
+
+GeneralAlarm  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 0 }
+
+AlHP  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 1 }
+
+AlLP  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 2 }
+
+WaHC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 3 }
+
+WaLC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 4 }
+
+WaEHO  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 5 }
+
+WaAF  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 6 }
+
+AlAF  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 7 }
+
+WaCF  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 8 }
+
+WaLE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 9 }
+
+AlLE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 10 }
+
+WaUI_1_Wa1  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 11 }
+
+AlUI  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 12 }
+
+WaHFA  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 13 }
+
+WaHHC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 14 }
+
+WaHF  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 15 }
+
+WaHN  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 16 }
+
+WaHUC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 17 }
+
+Hrt  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 18 }
+
+Lrt  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 19 }
+
+HrH  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 20 }
+
+LrH  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 21 }
+
+HTE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 22 }
+
+LTE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 23 }
+
+HHE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 24 }
+
+LHE  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 25 }
+
+WaCondHou  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 26 }
+
+WaCompHou  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 27 }
+
+WaHumiHou  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 28 }
+
+WaPTC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 29 }
+
+WaRoomSe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 30 }
+
+AlRoomSe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 31 }
+
+WaEEAPFa  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 32 }
+
+WaWater  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 33 }
+
+WaNet  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 34 }
+
+WaOr  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 35 }
+
+MeUnitOn  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 36 }
+
+MeUnitOff  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 37 }
+
+MeSleepMod  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 38 }
+
+MeStandby  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 39 }
+
+MePowerOn  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 40 }
+
+MePowerOff  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 41 }
+
+AlHP2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 58 }
+
+AlLP2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 59 }
+
+WaComp2Ho  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 60 }
+
+WaOutSens  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 61 }
+
+WaGlycolSe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 62 }
+
+MeStopFC  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 63 }
+
+
+WaSmoke  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 65 }
+
+MeNoPowUI  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 66 }
+
+MePowOnUI  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 67 }
+
+WaUI2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 68 }
+
+AlUI2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 69 }
+
+WaNetMast  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 70 }
+
+AlTH1  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 71 }
+
+AlTH2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 72 }
+
+AlFire  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 73 }
+
+WaUI_1_Wa2  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 75 }
+
+WaCond2Fan  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 76 }
+
+WaHb_Error  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 77 }
+
+WaSubGrErr  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 78 }
+
+WaSubGr1nc  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 79 }
+
+WaSubGr2nc  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 80 }
+
+WaShRoomSe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 81 }
+
+AlShRoomSe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 82 }
+
+MeMainDone  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 83 }
+
+MeDoMaint  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 84 }
+
+MeShortRes  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 85 }
+
+AlHumHiTe  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 86 }
+
+AlHumOverF  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 87 }
+
+WaHeatHo12  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 88 }
+
+Wa_FC_Ho  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 89 }
+
+Wa_Air_Dev  OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        ""
+    ::= { Alarme 90 }
+
+
+END

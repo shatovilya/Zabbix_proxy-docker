@@ -1,0 +1,73 @@
+ELTEX-MES-COPY-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    eltMesCopy                                              FROM ELTEX-MES
+    TruthValue,DisplayString                                FROM SNMPv2-TC
+    MODULE-IDENTITY, OBJECT-TYPE,Unsigned32                 FROM SNMPv2-SMI
+    InetAddressType, InetAddress                            FROM INET-ADDRESS-MIB; -- RFC2851
+
+eltCopyAutoBackupEnable  OBJECT-TYPE
+    SYNTAX TruthValue
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Enabling on automatic backup configuration."
+    DEFVAL { false }
+    ::= { eltMesCopy 1 }
+
+eltCopyAutoBackupTimeout  OBJECT-TYPE
+    SYNTAX  Unsigned32
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+        " This MIB should be used in order to change the time-interval of automatic copy of
+          running-config to external server. The value should be the number of minutes for
+          the interval of time from the backup."
+    ::= { eltMesCopy 2 }
+
+eltCopyAutoBackupFilePath OBJECT-TYPE
+    SYNTAX        DisplayString
+    MAX-ACCESS    read-write
+    STATUS        current
+    DESCRIPTION
+        "The name of the destination file."
+    ::= { eltMesCopy 3 }
+
+eltCopyAutoBackupServerAddress OBJECT-TYPE
+    SYNTAX       DisplayString
+    MAX-ACCESS   read-write
+    STATUS current
+    DESCRIPTION
+        "The Inet address of the destination remote host"
+    ::= { eltMesCopy 4 }
+
+eltCopyAutoBackupOnWrite OBJECT-TYPE
+    SYNTAX TruthValue
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Performing automatic backups every time
+        you write configuration in memory."
+    DEFVAL { false }
+    ::= { eltMesCopy 5 }
+
+
+EltCopyUserBackupStatus ::= TEXTUAL-CONVENTION
+    STATUS       current
+    DESCRIPTION
+            "Starting backup manually."
+    SYNTAX INTEGER {
+        starting(1),
+        stopped(2)
+    }
+
+eltCopyUserBackupStart OBJECT-TYPE
+    SYNTAX EltCopyUserBackupStatus
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Starting backup manually."
+    DEFVAL { stopped }
+    ::= { eltMesCopy 6 }
+
+END

@@ -1,0 +1,59 @@
+version: '3.5'
+
+x-log: &default
+  restart: always
+  env_file:
+    - .env
+
+services:
+  db:
+    image: mysql:8.0
+    <<: *default
+    volumes:
+      - mysql_db:/var/lib/mysql
+
+  app:
+    image: zabbix/zabbix-proxy-mysql:${SERVER_VERSION}
+    <<: *default
+    depends_on:
+      - db
+    volumes: 
+      - ./conf/proxy.psk:/var/lib/zabbix/enc/proxy.psk
+      - snmptraps:/var/lib/zabbix/snmptraps/
+      - ./app/zabbix_mibs/:/var/lib/zabbix/mibs
+    ports:
+      - 10051:10051
+
+  traps:
+    <<: *default
+    image: zabbix/zabbix-snmptraps:${SERVER_VERSION}
+    depends_on:
+      - db
+      - app
+    volumes: 
+      - snmptraps:/var/lib/zabbix/snmptraps/
+    ports:
+      - 162:1162/udp
+
+  zagent:
+    image: zabbix/zabbix-agent2:${AGENT_VERSION}
+    <<: *default
+    restart: always
+    depends_on:
+       - app
+    env_file: 
+      - ./conf/.env_agent
+    environment:
+      - TLS_AGENT=$TLS_AGENT
+    volumes:
+      - ./conf/tls:/var/lib/zabbix/enc
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 10050
+
+volumes:
+  mysql_db:
+    driver: local
+  snmptraps:
+    driver: local

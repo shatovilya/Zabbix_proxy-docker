@@ -1,0 +1,38 @@
+ELTEX-MES-AAA DEFINITIONS ::= BEGIN
+
+-- Title:      ELTEX MES AAA Extension Private
+-- Version:    1.0
+-- Date:       4 Mar 2015
+
+IMPORTS
+    eltMes, eltMesRadius                            FROM ELTEX-MES
+    MODULE-IDENTITY, OBJECT-TYPE                    FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION, TruthValue                  FROM SNMPv2-TC
+    DisplayString                                   FROM SNMPv2-TC;
+
+--
+-- RADIUS attributes
+--
+
+eltMesRadiusAttr OBJECT IDENTIFIER ::= { eltMesRadius 1 }
+
+eltRadiusAttrNasIdAccessEnable OBJECT-TYPE
+    SYNTAX      TruthValue
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+        "Enable or disable including NAS-Identifier attribute in Access Request messages"
+    DEFVAL      { false }
+    ::= { eltMesRadiusAttr 1 }
+
+eltRadiusAttrNasIdFormatString OBJECT-TYPE
+    SYNTAX      OCTET STRING (SIZE(0..32))
+    MAX-ACCESS  read-write
+    STATUS      current
+    DESCRIPTION
+        "The format string for NAS-Identifier RADIUS attribute."
+    DEFVAL      { "%h" }
+    ::= { eltMesRadiusAttr 2 }
+
+END
+

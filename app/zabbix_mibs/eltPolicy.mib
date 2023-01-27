@@ -1,0 +1,71 @@
+ELTEX-POLICY-MIB DEFINITIONS ::= BEGIN
+
+-- Title:      ELTEX POLICY MIB
+-- Version:    1.01
+-- Date:       28 Dec 2016
+--
+-- 22-May-2014 Added to rlPolicyClassifierEntry service
+
+IMPORTS
+    OBJECT-TYPE, IpAddress, Unsigned32,Counter32, zeroDotZero,
+    MODULE-IDENTITY,Counter64                   FROM SNMPv2-SMI
+    TEXTUAL-CONVENTION, TruthValue, RowStatus,
+    RowPointer, DisplayString                   FROM SNMPv2-TC
+    InterfaceIndexOrZero, InterfaceIndex        FROM IF-MIB
+    diffServClassifierEntry                     FROM DIFF-SERV-MIB
+    Percents, VlanPriority                      FROM RADLAN-MIB
+    PortList                                    FROM Q-BRIDGE-MIB
+    VlanId                                      FROM Q-BRIDGE-MIB
+    rlPolicyClassifierEntry,
+    rlPolicyTrustModeEntry,
+    rlPolicyOutQueueStatisticsEntry             FROM RADLAN-POLICY-MIB
+    eltMes                                      FROM ELTEX-MES;
+
+eltMesPolicy MODULE-IDENTITY
+        LAST-UPDATED "201405220000Z"
+        ORGANIZATION "Eltex Ltd."
+        CONTACT-INFO
+              "www.eltex.nsk.ru"
+        DESCRIPTION
+              "The private MIB module definition generic traffic policy in Eltex devices."
+        ::= { eltMes 59 }
+
+eltPolicyClassifier OBJECT IDENTIFIER ::= { eltMesPolicy 2 }
+eltPolicyMapping    OBJECT IDENTIFIER ::= { eltMesPolicy 3 }
+eltPolicyStatistics OBJECT IDENTIFIER ::= { eltMesPolicy 4 }
+
+--
+--  Policy statistics Table
+--
+
+eltPolicyOutQueueStatisticsTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF EltPolicyOutQueueStatisticsEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "This table specifies statistics counters per Port/Queue/Drop Precedence"
+    ::= { eltPolicyStatistics 1 }
+
+eltPolicyOutQueueStatisticsEntry OBJECT-TYPE
+    SYNTAX  EltPolicyOutQueueStatisticsEntry
+    MAX-ACCESS  not-accessible
+    STATUS  current
+    DESCRIPTION
+        "Augments rlPolicyOutQueueStatisticsEntry to add more parameters for configuration
+         statistics counters."
+    AUGMENTS { rlPolicyOutQueueStatisticsEntry }
+    ::= { eltPolicyOutQueueStatisticsTable 1 }
+
+EltPolicyOutQueueStatisticsEntry ::= SEQUENCE {
+       eltPolicyOutQueueStatisticsCpuPort      TruthValue
+}
+
+eltPolicyOutQueueStatisticsCpuPort OBJECT-TYPE
+    SYNTAX  TruthValue
+    MAX-ACCESS  read-write
+    STATUS  current
+    DESCRIPTION
+       "Indication for whether the port is configured as CPU port."
+    ::= { eltPolicyOutQueueStatisticsEntry 1 }
+
+END

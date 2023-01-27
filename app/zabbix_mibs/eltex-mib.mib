@@ -1,0 +1,84 @@
+ELTEX-MIB DEFINITIONS ::= BEGIN
+
+-- Title:      Eltex's MES Switches Private MIB
+-- Version:    1.00
+-- Date:       1-Jan-2012
+--
+
+IMPORTS
+
+    enterprises
+                FROM SNMPv2-SMI;
+
+    Percents ::= INTEGER (0..100)
+    NetNumber ::=  OCTET STRING (SIZE(4))
+    VlanPriority ::= INTEGER (0..7)
+
+elt MODULE-IDENTITY
+                LAST-UPDATED "201207130000Z"
+                ORGANIZATION "Eltex Enterprise Co, Ltd."
+                CONTACT-INFO
+                      "www.eltex.nsk.ru"
+                DESCRIPTION
+                      "This private MIB module defines Eltex's private MIBs."
+                REVISION "201207130000Z"
+                DESCRIPTION
+                      "Initial revision."
+        ::= { enterprises 35265 }
+
+
+-- Some MIB compilers require that the following 7 lines which define the path
+-- to Elt MIB are commented out:
+
+-- mib            OBJECT IDENTIFIER ::= { mgmt 1  }
+-- directory      OBJECT IDENTIFIER ::= { internet 1  }
+-- experimental   OBJECT IDENTIFIER ::= { internet 3  }
+-- private        OBJECT IDENTIFIER ::= { internet 4  }
+-- enterprises    OBJECT IDENTIFIER ::= { private 1  }
+
+--   Objects in this MIB are arranged into groups:
+--01 eltMng             - Management/Action
+--02 ...
+
+-- At the end of the MIB there is a definition of all Eltex-specific traps.
+
+eltNotifications OBJECT-IDENTITY
+           STATUS      current
+           DESCRIPTION " All the Eltex notifications will reside under this branch
+                         as specified in
+                         RFC2578 'Structure of Management Information Version 2 (SMIv2)' 8.5"
+           ::= { elt 0 }
+
+-- eltMng group contains Management Variables for Eltex devices
+
+eltMng   OBJECT IDENTIFIER ::= { elt 1  }
+-- see eltMng.mib
+
+eltCopy   OBJECT IDENTIFIER ::= { elt 3  }
+-- see eltCopy.mib
+
+eltIpOspfMtu   OBJECT IDENTIFIER ::= { elt 4  }
+-- see eltIpOspfMtu.mib
+
+eltQosTailDropMib   OBJECT IDENTIFIER ::= { elt 12  }
+-- see eltQosTailDropMib.mib
+
+eltSwInterfaces OBJECT IDENTIFIER ::= { elt 43  }
+-- see eltInterfaces.mib
+
+eltPhdTransceiver OBJECT IDENTIFIER ::= { elt 53 }
+--see ELTEX-PHYSICAL-DESCRIPTION-MIB.mib
+
+eltRadius  OBJECT IDENTIFIER ::= { elt 80 }
+--see eltAAA.mib
+
+ipSpec OBJECT IDENTIFIER ::= { elt 91 }
+-- see eltip.mib
+
+eltEndOfMibGroup   OBJECT IDENTIFIER ::= { elt 1000  }
+-- see ELTEX-ENDOFMIB-MIB.MIB
+
+
+
+END
+
